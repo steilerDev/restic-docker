@@ -3,7 +3,7 @@ name: Build & Publish
 on: [push, pull_request]
 
 env:
-  PKG_NAME: docker-base
+  PKG_NAME: restic
 #  NODE_VERSION: 17
 
 # Required secrets:
@@ -24,16 +24,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-#    - name: Setup node
-#      uses: actions/setup-node@v2
-#      with:
-#        node-version: ${{ env.NODE_VERSION }}
-#    - name: Install dependencies & build app
-#      run: |
-#        npm install && \
-#        npm run test && \
-#        npm run build && \
-#        npm run docs
     - name: Package docker artifacts
       run: tar -C ./rootfs -czf ./rootfs.tar.gz ./
     - name: Upload docker artifacts
@@ -76,15 +66,9 @@ jobs:
       run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PWD}}
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag $PKG_NAME
-#    - name: Get current version
-#      id: package-version
-#      uses: martinbeentjes/npm-get-version-action@master
-#      with:
-#        path: rootfs/opt/icloud-photos-sync
     - name: Tag the Docker image
       run: |
         docker image tag $PKG_NAME ${{secrets.DOCKER_USERNAME}}/$PKG_NAME:latest && \
-#        docker image tag $PKG_NAME ${{secrets.DOCKER_USERNAME}}/$PKG_NAME:${{ steps.package-version.outputs.current-version}} && \
         docker image ls
     - name: Push to DockerHub
       run: docker image push --all-tags ${{secrets.DOCKER_USERNAME}}/$PKG_NAME
