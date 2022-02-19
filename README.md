@@ -23,13 +23,13 @@ This only lists the most important and docker specific environmental variables. 
     For the last n days which have one or more snapshots, only keep the last one for that day
   - `KEEP_WEEKLY`  
     For the last n weeks which have one or more snapshots, only keep the last one for that week
-  - `KEEP_MONTHLY`
+  - `KEEP_MONTHLY`  
     For the last n months which have one or more snapshots, only keep the last one for that month
-  - `KEEP_YEARLY`
+  - `KEEP_YEARLY` . 
     For the last n years which have one or more snapshots, only keep the last one for that year
-  - `KEEP_TAG`
+  - `KEEP_TAG`  
     Keep all snapshots which have all tags specified by this option (can be specified multiple times)
-  - `KEEP_WITHIN`
+  - `KEEP_WITHIN`  
     Keep all snapshots which have been made within the `duration` of the latest snapshot. `duration` needs to be a number of years, months, days, and hours, e.g. `2y5m7d3h` will keep all snapshots made in the two years, five months, seven days, and three hours before the latest snapshot
 
 
