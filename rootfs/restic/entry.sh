@@ -1,10 +1,7 @@
 #!/bin/sh
 echo "Welcome to steilerDev-Restic Docker!"
 
-STATUS_FILE="/restic/status.info"
-if [ ! -f $STATUS_FILE ]; then
-    /restic/status.sh "SCHEDULED"
-fi
+/restic/status.sh "SCHEDULED"
 
 echo "Checking your remote repository..."
 /restic/restic snapshots > /dev/null

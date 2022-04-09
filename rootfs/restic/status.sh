@@ -10,13 +10,19 @@ STATUS_FILE="/restic/status.info"
 
 MEASUREMENT_NAME="backup"
 FIELD_KEY_STATUS="status"
-FIELD_KEY_TIME="time"
+FIELD_KEY_TIME="date"
 
 parse_status () {
     if [ -z $STATUS ]; then
         if [ -f $STATUS_FILE ]; then
-            # !!
-            STATUS=$(cat $STATUS_FILE)
+            DATA=$(cut $STATUS_FILE -c $(( ${#MEASUREMENT_NAME}+2 ))- | tr "," "\n")
+            for DATA_POINT in $DATA ; do
+                if [[ $DATA_POINT == "$FIELD_KEY_STATUS="* ]]; then
+                    STATUS=$(echo $DATA_POINT | cut -c $(( ${#FIELD_KEY_STATUS}+2 ))-)
+                elif [[ $DATA_POINT == "$FIELD_KEY_TIME="* ]]; then
+                    DATE=$(echo $DATA_POINT | cut -c $(( ${#FIELD_KEY_TIME}+2 ))-)
+                fi
+            done
         else
             STATUS="NO_STATUS"
         fi
@@ -45,7 +51,7 @@ parse_status () {
     echo ${STATUS_DICT[$STATUS]}
 }
 
-if [ -z $STATUS ] ; then
+if [ -z $1 ] ; then
     BLUE='\033[0;34m'
     GREEN='\033[0;32m'
     YELLOW='\033[1;33m'
@@ -68,7 +74,7 @@ else
     else
         STATUS=$1
         DATE=$(date +%s%N)
-        echo "${MEASUREMENT_NAME} ${FIELD_KEY_STATUS}=${STATUS},${FIELD_KEY_TIME}=${DATE}" > $STATUS_FILE
+        echo "${MEASUREMENT_NAME} ${FIELD_KEY_STATUS}=\"${STATUS}\",${FIELD_KEY_TIME}=${DATE}" > $STATUS_FILE
 
         echo "###############################################################################"
         parse_status

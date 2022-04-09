@@ -8,7 +8,7 @@ RUN mkdir /backup
 WORKDIR /restic
 
 RUN apk update && \
-    apk add wget curl && \
+    apk add wget curl bash && \
     rm -rf /var/cache/apk/*
 
 RUN chmod +x /restic/* && \
