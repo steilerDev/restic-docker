@@ -2,18 +2,13 @@
 
 STATUS_FILE="/restic/status.info"
 
-echo "###############################################################################"
-echo "Backup started at $(date)" | tee $STATUS_FILE
-echo "###############################################################################"
+/restic/status.sh "BACKUP_STARTED"
+
 /restic/restic backup /backup
 if [ $? -eq 0 ]; then
-    echo "###############################################################################"
-    echo "Backup successfully finished at $(date)" | tee $STATUS_FILE
-    echo "###############################################################################"
+    /restic/status.sh "BACKUP_SUCCESS"
     /restic/forget.sh
 else
-    echo "###############################################################################"
-    echo "Backup failed at $(date)" | tee $STATUS_FILE
-    echo "###############################################################################"
+    /restic/status.sh "BACKUP_FAILED"
 fi
 

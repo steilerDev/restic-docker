@@ -1,6 +1,6 @@
 #!/bin/sh
-echo "###############################################################################"
-echo "Backup cleaning started at $(date) using policy: "
+/restic/status.sh "CLEANING_STARTED"
+echo "Policy: "
 POLICY=""
 if [ ! -z "$KEEP_LAST" ]; then 
     echo "    Keep the most recent ${KEEP_LAST} snapshots"
@@ -45,11 +45,7 @@ echo "##########################################################################
 
 /restic/restic forget ${POLICY} --prune -g paths
 if [ $? -eq 0 ]; then
-    echo "###############################################################################"
-    echo "Backup cleaning finished at $(date)"
-    echo "###############################################################################"
+    /restic/status.sh "SUCCESS"
 else
-    echo "###############################################################################"
-    echo "Backup cleaning failed at $(date)" | tee $STATUS_FILE
-    echo "###############################################################################"
+    /restic/status.sh "CLEANING_FAILED"
 fi

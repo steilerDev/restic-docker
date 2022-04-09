@@ -3,7 +3,7 @@ echo "Welcome to steilerDev-Restic Docker!"
 
 STATUS_FILE="/restic/status.info"
 if [ ! -f $STATUS_FILE ]; then
-    echo "No backup run yet" > $STATUS_FILE
+    /restic/status.sh "SCHEDULED"
 fi
 
 echo "Checking your remote repository..."
