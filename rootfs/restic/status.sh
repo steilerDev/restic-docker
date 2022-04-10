@@ -46,7 +46,7 @@ parse_status () {
         ["CLEANING_FAILED"]="Cleaning failed at ${PARSED_DATE}"
         ["SUCCESS"]="Backup finished at ${PARSED_DATE}"
     )
-    echo ${STATUS_DICT[$STATUS]}
+    echo "${STATUS_DICT[$STATUS]}"
 }
 
 if [ -z $1 ] ; then
