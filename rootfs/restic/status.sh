@@ -68,17 +68,16 @@ if [ -z $1 ] ; then
     echo -e "${BLUE}##  ${YELLOW}${STATUS}${BLUE} ##"
     echo -e "${BLUE}###############################################################################${STOP_COLOR}"
 else
-    if [ "$1" = "SCHEDULED" ] && [ -f $STATUS_FILE ]; then
-        echo "Not initializing status file, because it exists"
-    else
-        STATUS=$1
-        # Storing in Milliseconds (natively parsable DateTime for Grafana)
-        DATE=$(( $(date +%s%N) / 1000000 ))
-        echo "${MEASUREMENT_NAME} ${FIELD_KEY_STATUS}=\"${STATUS}\",${FIELD_KEY_TIME}=${DATE}" > $STATUS_FILE
+    #if [ "$1" = "SCHEDULED" ] && [ -f $STATUS_FILE ]; then
+    #    echo "Not initializing status file, because it exists"
 
-        echo "###############################################################################"
-        parse_status "$STATUS" "$DATE"
-        echo "###############################################################################"
-    fi
+    STATUS=$1
+    # Storing in Milliseconds (natively parsable DateTime for Grafana)
+    DATE=$(( $(date +%s%N) / 1000000 ))
+    echo "${MEASUREMENT_NAME} ${FIELD_KEY_STATUS}=\"${STATUS}\",${FIELD_KEY_TIME}=${DATE}" > $STATUS_FILE
+
+    echo "###############################################################################"
+    parse_status "$STATUS" "$DATE"
+    echo "###############################################################################"
 fi
 
