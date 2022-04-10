@@ -1,8 +1,8 @@
-#!/bin/sh
+#!/bin/bash
+trap "kill 0" SIGINT
+
 echo "Welcome to steilerDev-Restic Docker!"
-
-/restic/status.sh "SCHEDULED"
-
+echo
 echo "Checking your remote repository..."
 /restic/restic snapshots > /dev/null
 if [ $? -ne 0 ] ; then
@@ -11,13 +11,13 @@ if [ $? -ne 0 ] ; then
     /restic/restic init
 fi
 echo "...done"
+echo
+if [ -z $CRON_SCHEDULE ]; then
+    echo "No CRON_SCHEDULE defined, aborting!"
+    exit 1
+else
+    echo "$CRON_SCHEDULE /restic/backup.sh > /proc/1/fd/1 2>/proc/1/fd/2" > $CRON_FILE
+fi
 
-echo "Setting up cron-job..."
-> /etc/crontabs/root
-echo "# min   hour    day     month   weekday command" >> /etc/crontabs/root
-echo "$CRON_SCHEDULE /restic/backup.sh > /proc/1/fd/1 2>/proc/1/fd/2" >> /etc/crontabs/root
-echo "...done"
-
-echo "Starting scheduled backup process with cron schedule:"
-cat /etc/crontabs/root 
+/restic/status.sh "SCHEDULED"
 crond -fS

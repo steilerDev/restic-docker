@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 /restic/status.sh "CLEANING_STARTED"
 echo "Policy: "
 POLICY=""

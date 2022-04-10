@@ -38,7 +38,7 @@ parse_status () {
     PARSED_DATE=$(date -d@"$(( $DATE / 1000 ))")
     STATUS_DICT+=(
         ["NO_STATUS"]="No backup execution scheduled" 
-        ["SCHEDULED"]="Backup execution scheduled, but not started" 
+        ["SCHEDULED"]="Backup execution scheduled with schedule ${CRON_SCHEDULE}"
         ["BACKUP_STARTED"]="Backup creation started at ${PARSED_DATE}"
         ["BACKUP_SUCCESS"]="Backup creation successfully finished at ${PARSED_DATE}"
         ["BACKUP_FAILED"]="Backup creation failed at ${PARSED_DATE}"
