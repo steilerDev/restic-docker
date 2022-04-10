@@ -16,7 +16,7 @@ if [ -z $CRON_SCHEDULE ]; then
     echo "No CRON_SCHEDULE defined, aborting!"
     exit 1
 else
-    echo "$CRON_SCHEDULE /restic/backup.sh > /proc/1/fd/1 2>/proc/1/fd/2" > $CRON_FILE
+    echo "$CRON_SCHEDULE /restic/backup.sh > /proc/1/fd/1 2>/proc/1/fd/2" > /etc/crontabs/root
 fi
 
 /restic/status.sh "SCHEDULED"
