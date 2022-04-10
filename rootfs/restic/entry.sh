@@ -12,7 +12,7 @@ if [ $? -ne 0 ] ; then
 fi
 echo "...done"
 echo
-if [ -z $CRON_SCHEDULE ]; then
+if [ -z "$CRON_SCHEDULE" ]; then
     echo "No CRON_SCHEDULE defined, aborting!"
     exit 1
 else
