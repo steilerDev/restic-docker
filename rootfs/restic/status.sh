@@ -6,8 +6,7 @@
 # If called without status value it will pritty print the status which is read from file
 # Builds and exptects Influx Line Protocol (https://docs.influxdata.com/influxdb/latest/reference/syntax/line-protocol/)
 
-#STATUS_FILE="/restic/status.info"
-STATUS_FILE="./status.info"
+STATUS_FILE="/restic/status.info"
 
 MEASUREMENT_NAME="backup"
 FIELD_KEY_STATUS="status"
@@ -80,4 +79,3 @@ else
     parse_status "$STATUS" "$DATE"
     echo "###############################################################################"
 fi
-

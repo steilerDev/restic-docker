@@ -1,7 +1,9 @@
 # Docker Container for Restic
 This docker container allows you to define a cron schedule to backup your files using [restic](https://github.com/restic/restic).
 
-The current status of backup (date of last run) is printed when executing `docker exec <container-name> status` (e.g. as part of the `.bashrc` script).
+The current status of backup (date of last run) is (pretty) printed when executing `docker exec <container-name> status` (e.g. as part of the `.bashrc` script).
+
+The backup status is stored as [Influx Line Protocol](https://docs.influxdata.com/influxdb/latest/reference/syntax/line-protocol/) in `/restic/status.info` and can be used to monitor the backup status. Find possible values in the (`status.sh`)[https://github.com/steilerDev/restic-docker/blob/main/rootfs/restic/status.sh] script.
 
 # Configuration options
 When running the docker, setting the hostname is recommended (see example below).
@@ -40,6 +42,8 @@ The following paths are recommended for persisting state and/or accessing config
     The source of the backup
  - `/restored/` (*recommended*)  
     The destination for restoring files
+ - `/restic/status.info` (*optional*)  
+    Read the current backup status from this file
 
 # docker-compose example
 Usage with `nginx-proxy` inside of predefined `steilerGroup` network.
@@ -67,6 +71,7 @@ services:
       - /root:/backup/root:ro
       - /home:/backup/home:ro
       - /media/files/_restored:/restored
+      - /opt/docker/backup/volumes/status.info:/restic/status.info
 networks:
   default:
     external:
