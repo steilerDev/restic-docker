@@ -16,7 +16,7 @@ RUN apk update && \
 RUN chmod +x /restic/* && \
     ln -s /restic/status.sh /usr/local/bin/status
 
-RUN wget $(curl -s https://api.github.com/repos/restic/restic/releases | grep "browser_download_url" | grep "linux_amd64" | head -n 1 | cut -d '"' -f 4) -O ./restic.bz2 && \
+RUN wget $(curl -s https://api.github.com/repos/restic/restic/releases | jq '.[] | select(.tag_name=="v0.15.0")' | grep "browser_download_url" | grep "linux_amd64" | cut -d '"' -f 4) -O ./restic.bz2 && \
     bzip2 -cd "./restic.bz2" > "./restic" && \
     rm restic.bz2 && \
     chmod +x restic

@@ -1,6 +1,6 @@
 name: Build & Publish
 
-on: [push, pull_request]
+on: push
 
 env:
   PKG_NAME: restic
