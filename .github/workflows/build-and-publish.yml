@@ -27,7 +27,7 @@ jobs:
     - name: Package docker artifacts
       run: tar -C ./rootfs -czf ./rootfs.tar.gz ./
     - name: Upload docker artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: rootfs
         path: ./rootfs.tar.gz
