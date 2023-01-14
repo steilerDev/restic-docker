@@ -10,7 +10,7 @@ RUN mkdir /backup
 WORKDIR /restic
 
 RUN apk update && \
-    apk add wget curl bash coreutils tzdata && \
+    apk add wget curl bash coreutils tzdata jq && \
     rm -rf /var/cache/apk/*
 
 RUN chmod +x /restic/* && \
