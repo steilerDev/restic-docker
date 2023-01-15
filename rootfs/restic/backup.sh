@@ -1,6 +1,6 @@
 #!/bin/bash
 /restic/status.sh "BACKUP_STARTED"
-/restic/restic backup --compression max /backup
+/restic/restic backup /backup
 EXIT_CODE=$?
 
 if [ $EXIT_CODE -eq 0 ]; then

@@ -11,8 +11,6 @@ When running the docker, setting the hostname is recommended (see example below)
 ## Environment Variables
 This only lists the most important and docker specific environmental variables. Restic specific variables can be found in the [restic documentation](https://restic.readthedocs.io/en/stable/manual_rest.html).
 
-Maximum compression is hardcoded within the backup process (if a v2 repository is available - see [restic's documentation](https://restic.readthedocs.io/en/stable/045_working_with_repos.html#upgrading-the-repository-format-version) on how to upgrade v1 repositories).
-
   - `CRON_SCHEDULE`  
     The [cron schedule](https://crontab.guru) for performing the backup
   - `RESTIC_REPOSITORY`  
@@ -64,6 +62,7 @@ services:
       CRON_SCHEDULE: "0 4 * * 0,3"
       RESTIC_REPOSITORY: "b2:<bucket-name>:<folder-name>/"
       RESTIC_PASSWORD: "<pwd>"
+      RESTIC_COMPRESSION: "max"
       B2_ACCOUNT_ID: "<account-id>"
       B2_ACCOUNT_KEY: "<account-key"
       KEEP_DAILY: "7"
