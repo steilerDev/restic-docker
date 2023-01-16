@@ -20,5 +20,7 @@ RUN wget $(curl -s https://api.github.com/repos/restic/restic/releases | jq '.[]
     bzip2 -cd "./restic.bz2" > "./restic" && \
     rm restic.bz2 && \
     chmod +x restic
+
+VOLUME /root/.cache/restic
     
 ENTRYPOINT ["./entry.sh"]
