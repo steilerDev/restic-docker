@@ -46,6 +46,8 @@ The following paths are recommended for persisting state and/or accessing config
     The destination for restoring files
  - `/restic/status.info` (*optional*)  
     Read the current backup status from this file
+ - `/pre-run.d` (*optional*)
+    This tool will use `run-parts` to execute the content of this dir before a backup (if it exists)
 
 # docker-compose example
 Usage with `nginx-proxy` inside of predefined `steilerGroup` network.

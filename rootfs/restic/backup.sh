@@ -1,4 +1,12 @@
 #!/bin/bash
+
+PRE_RUN="/pre-run.d"
+
+if [ -d ${PRE_RUN} ]; then
+    echo "Executing pre-run scripts..."
+    run-parts ${PRE_RUN}
+fi
+
 /restic/status.sh "BACKUP_STARTED"
 /restic/restic backup /backup
 EXIT_CODE=$?
