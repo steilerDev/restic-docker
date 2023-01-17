@@ -48,8 +48,9 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v3
       with:
+        context: .
         push: true
-        platforms: linux/amd64,linux/arm/v7
+        platforms: linux/amd64,linux/arm,linux/arm64
         tags: ${{env.DOCKER_USERNAME}}/${{env.PKG_NAME}}:latest
     - name: Update DockerHub readme
       uses: peter-evans/dockerhub-description@v3
