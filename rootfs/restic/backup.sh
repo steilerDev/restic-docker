@@ -4,7 +4,11 @@ PRE_RUN="/pre-run.d"
 
 if [ -d ${PRE_RUN} ]; then
     echo "Executing pre-run scripts..."
-    run-parts ${PRE_RUN}
+    run-parts --exit-on-error ${PRE_RUN}
+    if [ $? -ne 0 ]; then
+        /restic/status.sh "PRE_RUN_FAILED"
+        exit 1
+    fi
 fi
 
 /restic/status.sh "BACKUP_STARTED"

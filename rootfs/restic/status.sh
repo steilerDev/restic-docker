@@ -39,6 +39,7 @@ parse_status () {
     STATUS_DICT+=(
         ["NO_STATUS"]="No backup execution scheduled" 
         ["SCHEDULED"]="Backup execution scheduled with schedule ${CRON_SCHEDULE}"
+        ["PRE_RUN_FAILED"]="Execution of pre-run files failed"
         ["BACKUP_STARTED"]="Backup creation started at ${PARSED_DATE}"
         ["BACKUP_SUCCESS"]="Backup creation successfully finished at ${PARSED_DATE}"
         ["BACKUP_INCOMPLETE"]="Backup creation incomplete at ${PARSED_DATE}"
