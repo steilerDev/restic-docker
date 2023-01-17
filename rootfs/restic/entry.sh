@@ -9,6 +9,10 @@ if [ $? -ne 0 ] ; then
     echo "Restic repository does not exists at the defined location"
     echo "Starting init process..."
     /restic/restic init
+    if [ $? -ne 0 ] ; then
+        echo "Unable to initialize repository, aborting!"
+        exit 1
+    fi
 fi
 echo "...done"
 echo
@@ -21,5 +25,4 @@ else
 fi
 
 /restic/status.sh "SCHEDULED"
-echo
 crond -fS
