@@ -1,5 +1,8 @@
 FROM alpine:latest
 
+ARG TARGETARCH
+RUN echo "Building for $TARGETARCH"
+
 ENV TZ=Europe/Berlin
 
 # Applying fs patch for assets
