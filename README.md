@@ -1,3 +1,109 @@
+# DEPRECATED
+
+This repository has been deprecated in favor of [mazzolino/restic](https://github.com/djmaze/resticker). The following configuration is able to enable equal functionality with this project:
+
+```
+services:
+  backup:
+    image: mazzolino/restic:1.7.2
+    container_name: backup
+    restart: unless-stopped
+    hostname: "***"
+    volumes:
+      - type: bind
+        source: /home
+        target: /backup/home
+        read_only: true
+      - type: bind
+        source: /opt/steilerGroup-Docker/volumes/backup/pre-run.d
+        target: /pre-run.d
+      - type: bind
+        source: /opt/steilerGroup-Docker/volumes/backup/status.info
+        target: /status.info
+    environment:
+      BACKUP_CRON: "0 20 3 * * 1,4"
+      RESTIC_REPOSITORY: b2:***
+      RESTIC_PASSWORD: ***
+      RESTIC_BACKUP_SOURCES: /backup
+      RESTIC_BACKUP_ARGS: >-
+        --compression max
+      RESTIC_FORGET_ARGS: >-
+        --keep-weekly 5
+        --keep-monthly 12
+        --keep-yearly 5
+      SUCCESS_ON_INCOMPLETE_BACKUP: true
+      PRE_COMMANDS: |-
+        run-parts --exit-on-error /pre-run.d
+      POST_COMMANDS_SUCCESS: >
+        echo "backup status=\"BACKUP_SUCCESS\",date=$(( $(date +%s%N) * 1000 ))" > /status.info
+      POST_COMMANDS_FAILURE: >
+        echo "backup status=\"BACKUP_FAILED\",date=$(( $(date +%s%N) * 1000 ))" > /status.info
+      POST_COMMANDS_INCOMPLETE: >
+        echo "backup status=\"BACKUP_INCOMPLETE\",date=$(( $(date +%s%N) * 1000 ))" > /status.info
+      B2_ACCOUNT_ID: ***
+      B2_ACCOUNT_KEY: ***
+      TZ: Europe/Berlin
+    labels:
+      - wud.link.template=https://github.com/djmaze/resticker/releases/tag/$${raw}
+      - wud.tag.include=^\d+\.\d+\.\d+$$
+      - wud.display.icon=si:backblaze
+      - wud.display.name=backup-ns1
+  prune:
+    image: mazzolino/restic:1.7.2
+    container_name: backup_prune
+    restart: unless-stopped
+    hostname: "***"
+    volumes:
+      - type: bind
+        source: /opt/steilerGroup-Docker/volumes/backup/status.info
+        target: /status.info
+    environment:
+      SKIP_INIT: "true"
+      PRUNE_CRON: "0 20 3 * * 2,5"
+      RESTIC_REPOSITORY: b2:***
+      RESTIC_PASSWORD: ***
+      POST_COMMANDS_SUCCESS: >
+        echo "backup status=\"PRUNE_SUCCESS\",date=$(( $(date +%s%N) * 1000 ))" > /status.info
+      POST_COMMANDS_FAILURE: >
+        echo "backup status=\"PRUNE_FAILED\",date=$(( $(date +%s%N) * 1000 ))" > /status.info
+      B2_ACCOUNT_ID: ***
+      B2_ACCOUNT_KEY: ***
+      TZ: Europe/Berlin
+    labels:
+      - wud.link.template=https://github.com/djmaze/resticker/releases/tag/$${raw}
+      - wud.tag.include=^\d+\.\d+\.\d+$$
+      - wud.display.icon=si:backblaze
+      - wud.display.name=backup_prune-ns1
+  check:
+    image: mazzolino/restic:1.7.2
+    container_name: backup_check
+    restart: unless-stopped
+    hostname: "***"
+    volumes:
+      - type: bind
+        source: /opt/steilerGroup-Docker/volumes/backup/status.info
+        target: /status.info
+    environment:
+      SKIP_INIT: "true"
+      CHECK_CRON: "0 20 3 * * 3"
+      RESTIC_CHECK_ARGS: >
+        --read-data-subset=10%
+      RESTIC_REPOSITORY: b2:***
+      RESTIC_PASSWORD: ***
+      POST_COMMANDS_SUCCESS: >
+        echo "backup status=\"CHECK_SUCCESS\",date=$(( $(date +%s%N) * 1000 ))" > /status.info
+      POST_COMMANDS_FAILURE: >
+        echo "backup status=\"CHECK_FAILED\",date=$(( $(date +%s%N) * 1000 ))" > /status.info
+      B2_ACCOUNT_ID: ***
+      B2_ACCOUNT_KEY: ***
+      TZ: Europe/Berlin
+    labels:
+      - wud.link.template=https://github.com/djmaze/resticker/releases/tag/$${raw}
+      - wud.tag.include=^\d+\.\d+\.\d+$$
+      - wud.display.icon=si:backblaze
+      - wud.display.name=backup_check-ns1
+```
+
 # Docker Container for Restic
 This docker container allows you to define a cron schedule to backup your files using [restic](https://github.com/restic/restic).
 
